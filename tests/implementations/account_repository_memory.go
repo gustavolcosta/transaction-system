@@ -20,7 +20,7 @@ func NewAccountRepositoryMemory() *AccountRepositoryMemory {
 func (accountRepository *AccountRepositoryMemory) Create(account *entities.Account) error {
 
 	account.Id = accountRepository.id
-	_ = append(accountRepository.accounts, account)
+	accountRepository.accounts = append(accountRepository.accounts, account)
 	accountRepository.id++
 
 	return nil
