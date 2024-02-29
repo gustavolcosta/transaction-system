@@ -10,11 +10,11 @@ import (
 
 func TestNewAccount_ShouldWork(t *testing.T) {
 
-	documentId := uuid.New().String()
+	documentNumber := uuid.New().String()
 
-	account, _ := entities.NewAccount(documentId)
+	account, _ := entities.NewAccount(documentNumber)
 
-	assert.Equal(t, documentId, account.DocumentId)
+	assert.Equal(t, documentNumber, account.DocumentNumber)
 }
 
 func TestNewAccount_When_DocumentIdIsEmpty_ShouldReturnAnError(t *testing.T) {

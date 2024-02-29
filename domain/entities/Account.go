@@ -5,17 +5,17 @@ import (
 )
 
 type Account struct {
-	Id         int
-	DocumentId string
+	Id             int
+	DocumentNumber string
 }
 
-func NewAccount(documentId string) (*Account, error) {
+func NewAccount(documentNumber string) (*Account, error) {
 
-	if documentId == "" {
+	if documentNumber == "" {
 		return nil, errors.New("the document is required to create an account")
 	}
 
 	return &Account{
-		DocumentId: documentId,
+		DocumentNumber: documentNumber,
 	}, nil
 }
