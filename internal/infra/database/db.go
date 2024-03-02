@@ -3,11 +3,13 @@ package database
 import (
 	"database/sql"
 	"fmt"
-	_ "github.com/golang-migrate/migrate/v4/source/file"
-	"log"
+	_ "github.com/lib/pq"
 	"os"
 	"strconv"
+	"transaction-system/internal/infra/log_application"
 )
+
+var contextLog = "DATABASE_CLIENT"
 
 func ConnectDatabase() (*sql.DB, error) {
 	host := os.Getenv("DB_HOST")
@@ -22,17 +24,17 @@ func ConnectDatabase() (*sql.DB, error) {
 	db, err := sql.Open("postgres", psqlInfo)
 
 	if err != nil {
-		log.Printf("Error to open connection with database %v", err)
+		log_application.Error("open connection with database", err, contextLog)
 		return nil, err
 	}
 
 	err = db.Ping()
 	if err != nil {
-		log.Printf("Error to connect with database %v", err)
+		log_application.Error("connect with database", err, contextLog)
 		return nil, err
 	}
 
-	log.Println("Connected to database")
+	log_application.Info("Connected to database", contextLog)
 
 	return db, nil
 }
