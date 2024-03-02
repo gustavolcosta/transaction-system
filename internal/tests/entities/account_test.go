@@ -5,7 +5,7 @@ import (
 	"github.com/google/uuid"
 	"github.com/stretchr/testify/assert"
 	"testing"
-	"transaction-system/domain/entities"
+	"transaction-system/internal/domain/entities"
 )
 
 func TestNewAccount_ShouldWork(t *testing.T) {

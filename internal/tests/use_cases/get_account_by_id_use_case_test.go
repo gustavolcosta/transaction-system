@@ -5,17 +5,17 @@ import (
 	"github.com/google/uuid"
 	"github.com/stretchr/testify/assert"
 	"testing"
-	"transaction-system/application/dtos"
-	"transaction-system/application/use_cases"
-	"transaction-system/tests/implementations"
+	"transaction-system/internal/application/dtos"
+	use_cases2 "transaction-system/internal/application/use_cases"
+	"transaction-system/internal/tests/implementations"
 )
 
 func TestGetAccountById_ShouldWork(t *testing.T) {
 
 	accountRepository := implementations.NewAccountRepositoryMemory()
 	inputCreateDTO := dtos.CreateAccountInputDTO{DocumentNumber: uuid.New().String()}
-	createAccountUseCase := use_cases.NewCreateAccountUseCase(accountRepository)
-	getAccountById := use_cases.NewGetAccountByIdUseCase(accountRepository)
+	createAccountUseCase := use_cases2.NewCreateAccountUseCase(accountRepository)
+	getAccountById := use_cases2.NewGetAccountByIdUseCase(accountRepository)
 
 	accountCreated, _ := createAccountUseCase.Execute(inputCreateDTO)
 
@@ -28,7 +28,7 @@ func TestGetAccountById_ShouldWork(t *testing.T) {
 func TestGetAccountById_WhenAccountNotFound_ShouldReturnAnError(t *testing.T) {
 
 	accountRepository := implementations.NewAccountRepositoryMemory()
-	getAccountById := use_cases.NewGetAccountByIdUseCase(accountRepository)
+	getAccountById := use_cases2.NewGetAccountByIdUseCase(accountRepository)
 	accountId := 99999
 
 	errorToReturn := errors.New("account not found")

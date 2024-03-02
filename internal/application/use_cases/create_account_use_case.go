@@ -2,9 +2,9 @@ package use_cases
 
 import (
 	"log"
-	"transaction-system/application/dtos"
-	"transaction-system/domain/entities"
-	"transaction-system/domain/interfaces"
+	"transaction-system/internal/application/dtos"
+	"transaction-system/internal/domain/entities"
+	"transaction-system/internal/domain/interfaces"
 )
 
 type CreateAccountUseCase struct {

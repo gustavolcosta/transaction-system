@@ -2,7 +2,7 @@ package implementations
 
 import (
 	"errors"
-	"transaction-system/domain/entities"
+	"transaction-system/internal/domain/entities"
 )
 
 type AccountRepositoryMemory struct {

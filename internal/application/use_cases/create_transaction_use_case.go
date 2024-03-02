@@ -5,19 +5,19 @@ import (
 	"log"
 	"math"
 	"time"
-	"transaction-system/application/dtos"
-	"transaction-system/domain/entities"
-	"transaction-system/domain/interfaces"
+	"transaction-system/internal/application/dtos"
+	entities2 "transaction-system/internal/domain/entities"
+	interfaces2 "transaction-system/internal/domain/interfaces"
 )
 
 type CreateTransactionUseCase struct {
-	transactionRepository   interfaces.TransactionRepository
-	accountRepository       interfaces.AccountRepository
-	operationTypeRepository interfaces.OperationTypeRepository
+	transactionRepository   interfaces2.TransactionRepository
+	accountRepository       interfaces2.AccountRepository
+	operationTypeRepository interfaces2.OperationTypeRepository
 }
 
-func NewCreateTransactionUseCase(transactionRepository interfaces.TransactionRepository, accountRepository interfaces.AccountRepository,
-	opTypeRepository interfaces.OperationTypeRepository) *CreateTransactionUseCase {
+func NewCreateTransactionUseCase(transactionRepository interfaces2.TransactionRepository, accountRepository interfaces2.AccountRepository,
+	opTypeRepository interfaces2.OperationTypeRepository) *CreateTransactionUseCase {
 
 	return &CreateTransactionUseCase{
 		transactionRepository:   transactionRepository,
@@ -40,7 +40,7 @@ func (createTransaction *CreateTransactionUseCase) Execute(inputDTO dtos.CreateT
 		return nil, err
 	}
 
-	transaction, err := entities.NewTransaction(inputDTO.AccountId, operationType, inputDTO.Amount, time.Now())
+	transaction, err := entities2.NewTransaction(inputDTO.AccountId, operationType, inputDTO.Amount, time.Now())
 
 	if err != nil {
 		log.Printf("Error to instanciate a new transaction: %v", err)
@@ -80,7 +80,7 @@ func verifyAccount(accountId int, createTransaction *CreateTransactionUseCase) e
 	return nil
 }
 
-func getOperationType(opTypeId int, createTransaction *CreateTransactionUseCase) (*entities.OperationType, error) {
+func getOperationType(opTypeId int, createTransaction *CreateTransactionUseCase) (*entities2.OperationType, error) {
 
 	operationType, err := createTransaction.operationTypeRepository.GetById(opTypeId)
 

@@ -1,6 +1,8 @@
 package implementations
 
-import "transaction-system/domain/entities"
+import (
+	"transaction-system/internal/domain/entities"
+)
 
 type TransactionRepositoryMemory struct {
 	transactions []*entities.Transaction

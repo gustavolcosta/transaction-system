@@ -4,9 +4,9 @@ import (
 	"github.com/google/uuid"
 	"github.com/stretchr/testify/assert"
 	"testing"
-	"transaction-system/application/dtos"
-	"transaction-system/application/use_cases"
-	"transaction-system/tests/implementations"
+	"transaction-system/internal/application/dtos"
+	"transaction-system/internal/application/use_cases"
+	"transaction-system/internal/tests/implementations"
 )
 
 func TestCreateAccount_ShouldWork(t *testing.T) {

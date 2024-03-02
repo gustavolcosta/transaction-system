@@ -2,8 +2,8 @@ package use_cases
 
 import (
 	"errors"
-	"transaction-system/application/dtos"
-	"transaction-system/domain/interfaces"
+	"transaction-system/internal/application/dtos"
+	"transaction-system/internal/domain/interfaces"
 )
 
 type GetAccountByIdUseCase struct {
