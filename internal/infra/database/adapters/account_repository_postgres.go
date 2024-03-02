@@ -3,7 +3,6 @@ package adapters
 import (
 	"database/sql"
 	"errors"
-	"log/slog"
 	"transaction-system/internal/domain/entities"
 	"transaction-system/internal/infra/log_application"
 )
@@ -25,13 +24,13 @@ func (accountRepository AccountRepositoryPostgres) Create(account *entities.Acco
 	err := accountRepository.db.QueryRow(insertQuery, account.DocumentNumber).Scan(&id)
 
 	if err != nil {
-		slog.Error("Save account in database:", "error:", err, "context:", accountRepository.contextLog)
+		log_application.Error("Save account in database", err, accountRepository.contextLog)
 		return err
 	}
 
 	account.Id = id
 
-	slog.Info("Account saved successful!", "account_id", account.Id, "context", accountRepository.contextLog)
+	log_application.Info("Account saved successful!", accountRepository.contextLog, "accountId", account.Id)
 
 	return nil
 }

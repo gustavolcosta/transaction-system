@@ -9,7 +9,7 @@ import (
 	"transaction-system/internal/application/dtos"
 	"transaction-system/internal/application/use_cases"
 	"transaction-system/internal/domain/entities"
-	implementations2 "transaction-system/internal/tests/implementations"
+	"transaction-system/internal/tests/implementations"
 )
 
 func TestCreateTransaction_ShouldWork(t *testing.T) {
@@ -70,22 +70,22 @@ func assertError(createTransactionUseCase *use_cases.CreateTransactionUseCase, t
 }
 
 func generateCreateTransaction() *use_cases.CreateTransactionUseCase {
-	transactionRepository := implementations2.NewTransactionRepositoryMemory()
+	transactionRepository := implementations.NewTransactionRepositoryMemory()
 	accountRepository := createAccountRepository()
-	operationTypeRepository := implementations2.NewOperationTypeRepositoryMemory()
+	operationTypeRepository := implementations.NewOperationTypeRepositoryMemory()
 	createTransactionUseCase := use_cases.NewCreateTransactionUseCase(transactionRepository, accountRepository, operationTypeRepository)
 
 	return createTransactionUseCase
 }
 
-func createAccountRepository() *implementations2.AccountRepositoryMemory {
+func createAccountRepository() *implementations.AccountRepositoryMemory {
 
 	account := &entities.Account{
 		Id:             1,
 		DocumentNumber: uuid.New().String(),
 	}
 
-	accountRepository := implementations2.NewAccountRepositoryMemory()
+	accountRepository := implementations.NewAccountRepositoryMemory()
 
 	err := accountRepository.Create(account)
 

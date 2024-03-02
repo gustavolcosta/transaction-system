@@ -2,27 +2,29 @@ package use_cases
 
 import (
 	"errors"
-	"log"
 	"math"
 	"time"
 	"transaction-system/internal/application/dtos"
-	entities2 "transaction-system/internal/domain/entities"
-	interfaces2 "transaction-system/internal/domain/interfaces"
+	"transaction-system/internal/domain/entities"
+	"transaction-system/internal/domain/interfaces"
+	"transaction-system/internal/infra/log_application"
 )
 
 type CreateTransactionUseCase struct {
-	transactionRepository   interfaces2.TransactionRepository
-	accountRepository       interfaces2.AccountRepository
-	operationTypeRepository interfaces2.OperationTypeRepository
+	transactionRepository   interfaces.TransactionRepository
+	accountRepository       interfaces.AccountRepository
+	operationTypeRepository interfaces.OperationTypeRepository
+	contextLog              string
 }
 
-func NewCreateTransactionUseCase(transactionRepository interfaces2.TransactionRepository, accountRepository interfaces2.AccountRepository,
-	opTypeRepository interfaces2.OperationTypeRepository) *CreateTransactionUseCase {
+func NewCreateTransactionUseCase(transactionRepository interfaces.TransactionRepository, accountRepository interfaces.AccountRepository,
+	opTypeRepository interfaces.OperationTypeRepository) *CreateTransactionUseCase {
 
 	return &CreateTransactionUseCase{
 		transactionRepository:   transactionRepository,
 		accountRepository:       accountRepository,
 		operationTypeRepository: opTypeRepository,
+		contextLog:              "CREATE_TRANSACTION_USE_CASE",
 	}
 }
 
@@ -40,17 +42,17 @@ func (createTransaction *CreateTransactionUseCase) Execute(inputDTO dtos.CreateT
 		return nil, err
 	}
 
-	transaction, err := entities2.NewTransaction(inputDTO.AccountId, operationType, inputDTO.Amount, time.Now())
+	transaction, err := entities.NewTransaction(inputDTO.AccountId, operationType, inputDTO.Amount, time.Now())
 
 	if err != nil {
-		log.Printf("Error to instanciate a new transaction: %v", err)
+		log_application.Error("Create a instance of a new transaction", err, createTransaction.contextLog)
 		return nil, err
 	}
 
 	err = createTransaction.transactionRepository.Create(transaction)
 
 	if err != nil {
-		log.Printf("Error to save a new transaction: %v", err)
+		log_application.Error("Save a new transaction", err, createTransaction.contextLog)
 		return nil, err
 	}
 
@@ -69,7 +71,7 @@ func verifyAccount(accountId int, createTransaction *CreateTransactionUseCase) e
 	account, err := createTransaction.accountRepository.GetById(accountId)
 
 	if err != nil {
-		log.Printf("Error to get account in create transaction: %v", err)
+		log_application.Error("To get account in create transaction", err, createTransaction.contextLog)
 		return err
 	}
 
@@ -80,12 +82,12 @@ func verifyAccount(accountId int, createTransaction *CreateTransactionUseCase) e
 	return nil
 }
 
-func getOperationType(opTypeId int, createTransaction *CreateTransactionUseCase) (*entities2.OperationType, error) {
+func getOperationType(opTypeId int, createTransaction *CreateTransactionUseCase) (*entities.OperationType, error) {
 
 	operationType, err := createTransaction.operationTypeRepository.GetById(opTypeId)
 
 	if err != nil {
-		log.Printf("Error to get operation type in create transaction: %v", err)
+		log_application.Error("To get operation in create transaction", err, createTransaction.contextLog)
 		return nil, err
 	}
 
