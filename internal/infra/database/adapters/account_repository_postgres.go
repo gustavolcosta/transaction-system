@@ -8,14 +8,13 @@ import (
 	"transaction-system/internal/infra/log_application"
 )
 
-var contextLog = "ACCOUNT_REPOSITORY"
-
 type AccountRepositoryPostgres struct {
-	db *sql.DB
+	db         *sql.DB
+	contextLog string
 }
 
 func NewAccountRepositoryPostgres(db *sql.DB) *AccountRepositoryPostgres {
-	return &AccountRepositoryPostgres{db: db}
+	return &AccountRepositoryPostgres{db: db, contextLog: "ACCOUNT_REPOSITORY"}
 }
 
 func (accountRepository AccountRepositoryPostgres) Create(account *entities.Account) error {
@@ -26,13 +25,13 @@ func (accountRepository AccountRepositoryPostgres) Create(account *entities.Acco
 	err := accountRepository.db.QueryRow(insertQuery, account.DocumentNumber).Scan(&id)
 
 	if err != nil {
-		slog.Error("Save account in database:", "error:", err, "context:", contextLog)
+		slog.Error("Save account in database:", "error:", err, "context:", accountRepository.contextLog)
 		return err
 	}
 
 	account.Id = id
 
-	slog.Info("Account saved successful!", "account_id", account.Id, "context", contextLog)
+	slog.Info("Account saved successful!", "account_id", account.Id, "context", accountRepository.contextLog)
 
 	return nil
 }
@@ -51,7 +50,7 @@ func (accountRepository AccountRepositoryPostgres) GetById(accountId int) (*enti
 			return nil, nil
 		}
 
-		log_application.Error("Execute query to get account", err, contextLog)
+		log_application.Error("Execute query to get account", err, accountRepository.contextLog)
 		return nil, err
 	}
 

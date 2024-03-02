@@ -7,14 +7,13 @@ import (
 	"transaction-system/internal/infra/log_application"
 )
 
-var contextLog = "CREATE_ACCOUNT_USE_CASE"
-
 type CreateAccountUseCase struct {
 	accountRepository interfaces.AccountRepository
+	contextLog        string
 }
 
 func NewCreateAccountUseCase(accountRepository interfaces.AccountRepository) *CreateAccountUseCase {
-	return &CreateAccountUseCase{accountRepository: accountRepository}
+	return &CreateAccountUseCase{accountRepository: accountRepository, contextLog: "CREATE_ACCOUNT_USE_CASE"}
 }
 
 func (createAccount CreateAccountUseCase) Execute(inputDTO dtos.CreateAccountInputDTO) (*dtos.CreateAccountOutputDTO, error) {
@@ -22,14 +21,14 @@ func (createAccount CreateAccountUseCase) Execute(inputDTO dtos.CreateAccountInp
 	account, err := entities.NewAccount(inputDTO.DocumentNumber)
 
 	if err != nil {
-		log_application.Error("Instance a new Account", err, contextLog)
+		log_application.Error("Instance a new Account", err, createAccount.contextLog)
 		return nil, err
 	}
 
 	err = createAccount.accountRepository.Create(account)
 
 	if err != nil {
-		log_application.Error("Save Account", err, contextLog)
+		log_application.Error("Save Account", err, createAccount.contextLog)
 		return nil, err
 	}
 
