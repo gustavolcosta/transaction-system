@@ -1,13 +1,12 @@
 package main
 
 import (
-	"github.com/google/uuid"
 	"log"
-	"transaction-system/internal/application/dtos"
 	"transaction-system/internal/application/use_cases"
 	"transaction-system/internal/infra/configs"
 	"transaction-system/internal/infra/database"
 	"transaction-system/internal/infra/database/adapters"
+	"transaction-system/internal/infra/log_application"
 )
 
 func main() {
@@ -20,14 +19,11 @@ func main() {
 	}
 
 	accountRepository := adapters.NewAccountRepositoryPostgres(db)
-	createAccountUseCase := use_cases.NewCreateAccountUseCase(accountRepository)
+	getAccount := use_cases.NewGetAccountByIdUseCase(accountRepository)
 
-	inputDTO := dtos.CreateAccountInputDTO{DocumentNumber: uuid.New().String()}
-
-	outputDTO, err := createAccountUseCase.Execute(inputDTO)
-
+	outputDTO, err := getAccount.Execute(1)
 	if err != nil {
-		return
+		log_application.Error("Get account", err, "main")
 	}
 
 	log.Print(outputDTO)

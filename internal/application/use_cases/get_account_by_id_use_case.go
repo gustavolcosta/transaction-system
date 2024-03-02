@@ -18,12 +18,12 @@ func (getAccount GetAccountByIdUseCase) Execute(accountId int) (*dtos.GetAccount
 
 	account, err := getAccount.accountRepository.GetById(accountId)
 
-	if account == nil {
-		return nil, errors.New("account not found")
-	}
-
 	if err != nil {
 		return nil, err
+	}
+
+	if account == nil {
+		return nil, errors.New("account not found")
 	}
 
 	outputDTO := dtos.GetAccountByIdOutputDTO{
