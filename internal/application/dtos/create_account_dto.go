@@ -1,7 +1,7 @@
 package dtos
 
 type CreateAccountInputDTO struct {
-	DocumentNumber string `json:"document_number"`
+	DocumentNumber string `json:"document_number" validate:"required"`
 }
 
 type CreateAccountOutputDTO struct {
