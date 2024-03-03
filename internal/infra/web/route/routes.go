@@ -12,6 +12,7 @@ func Routes(e *echo.Echo, db *sql.DB) {
 
 	//Accounts
 	e.POST("/accounts", accountController.CreateAccount)
+	e.GET("/accounts/:accountId", accountController.GetAccountById)
 
 	//Transactions
 }
