@@ -12,7 +12,7 @@ import (
 )
 
 func main() {
-	configs.LoadEnv()
+	configs.LoadEnv(".env")
 
 	db, err := database.ConnectDatabase()
 	defer db.Close()

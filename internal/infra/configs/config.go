@@ -5,9 +5,9 @@ import (
 	"log"
 )
 
-func LoadEnv() {
-	err := godotenv.Load()
+func LoadEnv(pathEnv string) {
+	err := godotenv.Load(pathEnv)
 	if err != nil {
-		log.Fatal("Error to load enviroments var")
+		log.Fatalf("Error to load enviroments var: %v", err)
 	}
 }

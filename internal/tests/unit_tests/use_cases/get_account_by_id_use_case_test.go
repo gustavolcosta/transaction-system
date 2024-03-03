@@ -7,7 +7,7 @@ import (
 	"testing"
 	"transaction-system/internal/application/dtos"
 	"transaction-system/internal/application/use_cases"
-	"transaction-system/internal/tests/implementations"
+	"transaction-system/internal/tests/unit_tests/implementations"
 )
 
 func TestGetAccountById_ShouldWork(t *testing.T) {
