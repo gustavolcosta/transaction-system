@@ -1,11 +1,11 @@
 package use_cases
 
 import (
-	"errors"
 	"math"
 	"time"
 	"transaction-system/internal/application/dtos"
 	"transaction-system/internal/domain/entities"
+	"transaction-system/internal/domain/exceptions"
 	"transaction-system/internal/domain/interfaces"
 	"transaction-system/internal/infra/log_application"
 )
@@ -76,7 +76,7 @@ func verifyAccount(accountId int, createTransaction *CreateTransactionUseCase) e
 	}
 
 	if account == nil {
-		return errors.New("account not found")
+		return exceptions.NewNotFoundException("account not found")
 	}
 
 	return nil
@@ -92,7 +92,7 @@ func getOperationType(opTypeId int, createTransaction *CreateTransactionUseCase)
 	}
 
 	if operationType == nil {
-		return nil, errors.New("operation type not found")
+		return nil, exceptions.NewNotFoundException("operation type not found")
 	}
 
 	return operationType, nil

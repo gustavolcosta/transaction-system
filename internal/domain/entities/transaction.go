@@ -1,8 +1,8 @@
 package entities
 
 import (
-	"errors"
 	"time"
+	"transaction-system/internal/domain/exceptions"
 )
 
 type Transaction struct {
@@ -16,7 +16,7 @@ type Transaction struct {
 func NewTransaction(accountId int, operationType *OperationType, amount float64, eventDate time.Time) (*Transaction, error) {
 
 	if amount <= 0 {
-		return nil, errors.New("the amount of transaction must be greater than zero")
+		return nil, exceptions.NewValidationException("the amount of transaction must be greater than zero")
 	}
 
 	return &Transaction{

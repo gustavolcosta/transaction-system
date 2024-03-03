@@ -1,11 +1,11 @@
 package entities
 
 import (
-	"errors"
 	"github.com/google/uuid"
 	"github.com/stretchr/testify/assert"
 	"testing"
 	"transaction-system/internal/domain/entities"
+	"transaction-system/internal/domain/exceptions"
 )
 
 func TestNewAccount_ShouldWork(t *testing.T) {
@@ -20,7 +20,7 @@ func TestNewAccount_ShouldWork(t *testing.T) {
 func TestNewAccount_When_DocumentIdIsEmpty_ShouldReturnAnError(t *testing.T) {
 
 	documentId := ""
-	errToReturn := errors.New("the document is required to create an account")
+	errToReturn := exceptions.NewValidationException("the document is required to create an account")
 
 	account, err := entities.NewAccount(documentId)
 
