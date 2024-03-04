@@ -8,6 +8,52 @@
     },
     "basePath": "/",
     "paths": {
+        "/accounts": {
+            "post": {
+                "description": "create an account",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "account"
+                ],
+                "summary": "Create an Account",
+                "parameters": [
+                    {
+                        "description": "Account info",
+                        "name": "body",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/dtos.CreateAccountInputDTO"
+                        }
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "Created",
+                        "schema": {
+                            "$ref": "#/definitions/dtos.CreateAccountOutputDTO"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/response.ExceptionResponse"
+                        }
+                    },
+                    "422": {
+                        "description": "Unprocessable Entity",
+                        "schema": {
+                            "$ref": "#/definitions/response.ExceptionResponse"
+                        }
+                    }
+                }
+            }
+        },
         "/accounts/{id}": {
             "get": {
                 "description": "get account by id",
@@ -16,6 +62,9 @@
                 ],
                 "produces": [
                     "application/json"
+                ],
+                "tags": [
+                    "account"
                 ],
                 "summary": "Get Account by Id",
                 "parameters": [
@@ -48,17 +97,139 @@
                     }
                 }
             }
+        },
+        "/transactions": {
+            "post": {
+                "description": "create an Transaction",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "transaction"
+                ],
+                "summary": "Create an Transaction",
+                "parameters": [
+                    {
+                        "description": "Transactions info",
+                        "name": "body",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/dtos.CreateTransactionInputDTO"
+                        }
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "Created",
+                        "schema": {
+                            "$ref": "#/definitions/dtos.CreateTransactionOutputDTO"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/response.ExceptionResponse"
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "schema": {
+                            "$ref": "#/definitions/response.ExceptionResponse"
+                        }
+                    },
+                    "422": {
+                        "description": "Unprocessable Entity",
+                        "schema": {
+                            "$ref": "#/definitions/response.ExceptionResponse"
+                        }
+                    }
+                }
+            }
         }
     },
     "definitions": {
+        "dtos.CreateAccountInputDTO": {
+            "type": "object",
+            "required": [
+                "document_number"
+            ],
+            "properties": {
+                "document_number": {
+                    "type": "string",
+                    "example": "1234567890"
+                }
+            }
+        },
+        "dtos.CreateAccountOutputDTO": {
+            "type": "object",
+            "properties": {
+                "account_id": {
+                    "type": "integer",
+                    "example": 1
+                },
+                "document_number": {
+                    "type": "string",
+                    "example": "1234567890"
+                }
+            }
+        },
+        "dtos.CreateTransactionInputDTO": {
+            "type": "object",
+            "required": [
+                "account_id",
+                "amount",
+                "operation_type_id"
+            ],
+            "properties": {
+                "account_id": {
+                    "type": "integer",
+                    "example": 1
+                },
+                "amount": {
+                    "type": "number",
+                    "example": 123.4
+                },
+                "operation_type_id": {
+                    "type": "integer",
+                    "example": 4
+                }
+            }
+        },
+        "dtos.CreateTransactionOutputDTO": {
+            "type": "object",
+            "properties": {
+                "account_id": {
+                    "type": "integer",
+                    "example": 1
+                },
+                "amount": {
+                    "type": "number",
+                    "example": 123.4
+                },
+                "id": {
+                    "type": "integer",
+                    "example": 1
+                },
+                "operation_type_id": {
+                    "type": "integer",
+                    "example": 4
+                }
+            }
+        },
         "dtos.GetAccountByIdOutputDTO": {
             "type": "object",
             "properties": {
                 "account_id": {
-                    "type": "integer"
+                    "type": "integer",
+                    "example": 1
                 },
                 "document_number": {
-                    "type": "string"
+                    "type": "string",
+                    "example": "1234567890"
                 }
             }
         },

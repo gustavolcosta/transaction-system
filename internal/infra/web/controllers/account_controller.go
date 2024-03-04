@@ -23,6 +23,16 @@ func NewAccountController(db *sql.DB) *AccountController {
 	return &AccountController{db: db}
 }
 
+// @Summary Create an Account
+// @Description create an account
+// @Tags			account
+// @Accept  json
+// @Produce  json
+// @Param	body body  dtos.CreateAccountInputDTO	  true	"Account info"
+// @Success 201 {object} dtos.CreateAccountOutputDTO
+// @Failure 400  {object}  response.ExceptionResponse
+// @Failure 422  {object}  response.ExceptionResponse
+// @Router /accounts [post]
 func (accountController *AccountController) CreateAccount(c echo.Context) error {
 	var inputDTO dtos.CreateAccountInputDTO
 
@@ -55,6 +65,7 @@ func (accountController *AccountController) CreateAccount(c echo.Context) error 
 
 // @Summary Get Account by Id
 // @Description get account by id
+// @Tags			account
 // @Accept  json
 // @Produce  json
 // @Param id path int true "Account ID"

@@ -20,6 +20,17 @@ func NewTransactionController(db *sql.DB) *TransactionController {
 	return &TransactionController{db: db}
 }
 
+// @Summary Create an Transaction
+// @Description create an Transaction
+// @Tags			transaction
+// @Accept  json
+// @Produce  json
+// @Param	body body  dtos.CreateTransactionInputDTO	  true	"Transactions info"
+// @Success 201 {object} dtos.CreateTransactionOutputDTO
+// @Failure 400  {object}  response.ExceptionResponse
+// @Failure 422  {object}  response.ExceptionResponse
+// @Failure 404  {object}  response.ExceptionResponse
+// @Router /transactions [post]
 func (transactionController *TransactionController) CreateTransaction(c echo.Context) error {
 
 	var inputDTO dtos.CreateTransactionInputDTO
