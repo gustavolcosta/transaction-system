@@ -9,6 +9,11 @@ services:
       POSTGRES_DB: transaction_system
     ports:
       - "5432:5432"
+    healthcheck:
+      test: [ "CMD-SHELL", "pg_isready -d transaction_system -U transaction_system_user" ]
+      interval: 5s
+      timeout: 5s
+      retries: 5
     volumes:
       - ./.build/pgdata:/var/lib/postgresql/data
     networks:
@@ -26,7 +31,8 @@ services:
     networks:
       - transaction-system
     depends_on:
-      - db_transaction_system
+      db_transaction_system:
+        condition: service_healthy
 
 
 networks:
