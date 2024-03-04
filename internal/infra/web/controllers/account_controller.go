@@ -53,6 +53,15 @@ func (accountController *AccountController) CreateAccount(c echo.Context) error 
 	return c.JSON(http.StatusCreated, outputDTO)
 }
 
+// @Summary Get Account by Id
+// @Description get account by id
+// @Accept  json
+// @Produce  json
+// @Param id path int true "Account ID"
+// @Success 200 {object} dtos.GetAccountByIdOutputDTO
+// @Failure 400  {object}  response.ExceptionResponse
+// @Failure 404  {object}  response.ExceptionResponse
+// @Router /accounts/{id} [get]
 func (accountController *AccountController) GetAccountById(c echo.Context) error {
 
 	accountId, err := strconv.Atoi(c.Param("accountId"))
@@ -68,6 +77,12 @@ func (accountController *AccountController) GetAccountById(c echo.Context) error
 	outputDTO, err := getAccountById.Execute(accountId)
 
 	if err != nil {
+
+		var notFoundException *exceptions.NotFoundException
+		if errors.As(err, &notFoundException) {
+			return c.JSON(http.StatusNotFound, response.NewExceptionResponse(notFoundException.Error()))
+		}
+
 		return c.JSON(http.StatusInternalServerError, response.NewExceptionResponse(err.Error()))
 	}
 

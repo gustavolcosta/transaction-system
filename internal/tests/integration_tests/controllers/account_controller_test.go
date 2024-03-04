@@ -138,6 +138,16 @@ func (suite *AccountControllerTestSuite) TestGetAccountById_ShouldWork() {
 func (suite *AccountControllerTestSuite) TestGetAccountById_WhenIdIsNotANumber_ShouldReturnBadRequest() {
 	respGetAccount := suite.executeGetAccountById("abc")
 
+	suite.handleGetAccountByIdTestErrors(respGetAccount, "The accountId must be a number", http.StatusBadRequest)
+}
+
+func (suite *AccountControllerTestSuite) TestGetAccountById_WhenAccountNotFound_ShouldReturnNotFound() {
+	respGetAccount := suite.executeGetAccountById("9999999")
+
+	suite.handleGetAccountByIdTestErrors(respGetAccount, "account not found", http.StatusNotFound)
+}
+
+func (suite *AccountControllerTestSuite) handleGetAccountByIdTestErrors(respGetAccount *httptest.ResponseRecorder, messageError string, statusCode int) {
 	var respBody response.ExceptionResponse
 
 	err := json.NewDecoder(respGetAccount.Body).Decode(&respBody)
@@ -146,9 +156,9 @@ func (suite *AccountControllerTestSuite) TestGetAccountById_WhenIdIsNotANumber_S
 		log.Fatalf("Erro create account controller test: %v", err)
 	}
 
-	expectedResponse := response.ExceptionResponse{Message: "The accountId must be a number"}
+	expectedResponse := response.ExceptionResponse{Message: messageError}
 
-	assert.Equal(suite.T(), http.StatusBadRequest, respGetAccount.Code)
+	assert.Equal(suite.T(), statusCode, respGetAccount.Code)
 	assert.Equal(suite.T(), respBody.Message, expectedResponse.Message)
 }
 

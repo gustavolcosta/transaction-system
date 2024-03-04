@@ -1,7 +1,7 @@
 package response
 
 type ExceptionResponse struct {
-	Message string
+	Message string `json:"message"`
 }
 
 func NewExceptionResponse(message string) *ExceptionResponse {

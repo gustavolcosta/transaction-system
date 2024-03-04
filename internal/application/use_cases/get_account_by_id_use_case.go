@@ -1,8 +1,8 @@
 package use_cases
 
 import (
-	"errors"
 	"transaction-system/internal/application/dtos"
+	"transaction-system/internal/domain/exceptions"
 	"transaction-system/internal/domain/interfaces"
 )
 
@@ -23,7 +23,7 @@ func (getAccount GetAccountByIdUseCase) Execute(accountId int) (*dtos.GetAccount
 	}
 
 	if account == nil {
-		return nil, errors.New("account not found")
+		return nil, exceptions.NewNotFoundException("account not found")
 	}
 
 	outputDTO := dtos.GetAccountByIdOutputDTO{
