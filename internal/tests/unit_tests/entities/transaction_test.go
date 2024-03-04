@@ -1,11 +1,11 @@
-package tests
+package entities
 
 import (
-	"errors"
 	"github.com/stretchr/testify/assert"
 	"testing"
 	"time"
-	"transaction-system/domain/entities"
+	"transaction-system/internal/domain/entities"
+	"transaction-system/internal/domain/exceptions"
 )
 
 func TestNewTransaction_ShouldWork(t *testing.T) {
@@ -26,7 +26,7 @@ func TestNewTransaction_WhenAmountIsEqualToZero_ShouldReturnError(t *testing.T) 
 	accountId := 1
 	eventDate := time.Now()
 	operationType := entities.NewOperationType(4, "PAGAMENTO", false)
-	errorToReturn := errors.New("the amount of transaction must be greater than zero")
+	errorToReturn := exceptions.NewValidationException("the amount of transaction must be greater than zero")
 
 	transaction, err := entities.NewTransaction(accountId, operationType, float64(amount), eventDate)
 
@@ -39,7 +39,7 @@ func TestNewTransaction_WhenAmountIsLessThanZero_ShouldReturnError(t *testing.T)
 	accountId := 1
 	eventDate := time.Now()
 	operationType := entities.NewOperationType(4, "PAGAMENTO", false)
-	errorToReturn := errors.New("the amount of transaction must be greater than zero")
+	errorToReturn := exceptions.NewValidationException("the amount of transaction must be greater than zero")
 
 	transaction, err := entities.NewTransaction(accountId, operationType, float64(amount), eventDate)
 
