@@ -8,6 +8,7 @@ RUN go mod download
 
 COPY cmd/ /app/cmd/
 COPY internal/ /app/internal/
+COPY docs/ /app/docs
 COPY .env.example .env
 
 RUN go build -o migration transaction-system/cmd/migration
